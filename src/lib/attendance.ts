@@ -1,3 +1,4 @@
 import {supabase} from './supabase';import {getDeviceId,getPlatform} from './device';
-export async function getAttendance(){const {data,error}=await supabase.functions.invoke('attendance-api',{method:'GET'});if(error)throw error;return data}
-export async function submitAttendance(action:'check_in'|'check_out',coords?:{latitude:number;longitude:number}){const {data,error}=await supabase.functions.invoke('attendance-api',{method:'POST',body:{action,device_id:await getDeviceId(),platform:getPlatform(),latitude:coords?.latitude??null,longitude:coords?.longitude??null,app_version:'1.0.0'}});if(error)throw error;return data}
+const API='attendance-api-v2';
+export async function getAttendance(){const {data,error}=await supabase.functions.invoke(API,{method:'GET'});if(error)throw error;return data}
+export async function submitAttendance(action:'check_in'|'check_out',coords?:{latitude:number;longitude:number}){const {data,error}=await supabase.functions.invoke(API,{method:'POST',body:{action,device_id:await getDeviceId(),platform:getPlatform(),latitude:coords?.latitude??null,longitude:coords?.longitude??null,app_version:'1.0.0'}});if(error)throw error;return data}
